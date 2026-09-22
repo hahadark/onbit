@@ -1,0 +1,5 @@
+-r requirements.txt
+PySide6-Essentials==6.11.2
+pillow-heif==1.7.0
+opencv-python-headless==4.10.0.84
+pyinstaller==6.22.2

@@ -1,0 +1,5 @@
+Pillow==12.3.0
+numpy==2.5.1
+efficientnet-pytorch==0.7.1
+pillow-heif==1.7.0
+# GPU runtime: install separately using setup.ps1 (torch 2.7.1 + CUDA 12.8).
