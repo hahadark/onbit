@@ -76,8 +76,11 @@ def self_test(directory):
                              BatchOptions(str(root/'parallel'), format='PNG', correction='auto', parallel_gpu=True,
                                           auto_strength=50, auto_color=False,
                                           auto_softness=12, auto_skin=24), engine)
-        if not parallel.get('parallel_gpu') or parallel['succeeded'] != 2:
-            raise AssertionError('Packaged CUDA parallel batch failed: ' + str(parallel))
+        # The CPU edition processes sequentially; only a CUDA build must run in parallel.
+        cuda = engine.device.type == 'cuda'
+        report['edition'] = 'gpu' if cuda else 'cpu'
+        if parallel['succeeded'] != 2 or bool(parallel.get('parallel_gpu')) != cuda:
+            raise AssertionError('Packaged parallel batch failed: ' + str(parallel))
         if any(entry['adjustments']['ai'] != 0 or entry['adjustments']['softness'] != 6
                for entry in parallel['files']):
             raise AssertionError('Packaged AI batch detail settings were not applied: ' + str(parallel))
@@ -116,11 +119,11 @@ def self_test(directory):
                            BatchOptions(str(root/'neural'), format='PNG', correction='match',
                                         match_method='neural', reference_path=str(reference_path),
                                         match_strength=100, match_protect_skin=False, parallel_gpu=True), engine)
-        if neural['succeeded'] != 2 or not neural['parallel_gpu']:
+        if neural['succeeded'] != 2 or bool(neural.get('parallel_gpu')) != cuda:
             raise AssertionError('Neural matching batch failed: ' + str(neural))
         for entry in neural['files']:
-            if entry['match'].get('method') != 'neural' or entry['match'].get('device') != 'cuda':
-                raise AssertionError('Packaged neural model did not run on CUDA: ' + str(entry))
+            if entry['match'].get('method') != 'neural' or entry['match'].get('device') != engine.device.type:
+                raise AssertionError('Packaged neural model did not run on the engine device: ' + str(entry))
         a = np.asarray(shifted).astype(float)
         b = np.asarray(read_image(neural['files'][0]['output'])).astype(float)
         if np.abs(a-b).mean() < .1:

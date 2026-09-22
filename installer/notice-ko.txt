@@ -1,0 +1,43 @@
+﻿온빛 Onbit - 로컬 AI 사진 보정
+
+사진 보기, AI 자동 보정, 피부 보정, 색감 매칭, .cube LUT, HEIC 변환,
+일괄 리사이즈를 하는 Windows 프로그램입니다.
+모든 보정은 이 컴퓨터 안에서만 이루어지며 사진을 외부로 보내지 않습니다.
+
+[설치 방식 - 인터넷 연결이 필요합니다]
+이 설치 프로그램은 작은 파일이며, 설치 중에 고른 버전만 GitHub
+(github.com/hahadark/onbit 릴리스)에서 내려받아 검증(SHA-256)한 뒤 설치합니다.
+- GPU 가속 버전: NVIDIA 그래픽카드용, 다운로드 약 2.4GB, 설치 후 약 5GB
+- CPU 버전: 모든 PC용, 다운로드 약 0.3GB, 처리 속도는 느림
+NVIDIA 그래픽 드라이버가 있으면 GPU 버전이 자동으로 선택됩니다.
+CUDA Toolkit은 필요 없고 그래픽 드라이버만 있으면 됩니다.
+
+[시스템 요구 사항]
+- Windows 10 / 11 64비트
+- GPU 버전: NVIDIA 그래픽카드(8GB 이상 권장)와 최신 그래픽 드라이버
+
+[설치와 데이터]
+- 관리자 권한 없이 현재 사용자 폴더(%LOCALAPPDATA%\Programs\Onbit)에 설치됩니다.
+- 원본 사진은 수정하거나 복사하지 않습니다.
+- 다른 버전으로 다시 설치하면 이전 프로그램 파일을 교체합니다.
+- 제거해도 라이브러리 설정(onbit-data)은 남겨 둡니다. 필요 없으면 설치 폴더를 직접 지우세요.
+
+[포함된 AI 모델과 이용 조건 - 반드시 확인하세요]
+- Image-Adaptive-3DLUT (자동 색 보정): Apache-2.0
+- YuNet 얼굴 검출 (OpenCV Zoo): MIT
+- 얼굴 파싱 BiSeNet (yakhyo/face-parsing): 코드 MIT.
+  단, 비상업적 연구 목적으로만 배포되는 CelebAMask-HQ 데이터셋으로 학습되었습니다.
+- Neural-Preset AI 색감 매칭 (DY112/Neural-Preset): 코드 MIT.
+  공식 모델이 아닌 연구용 비공식 구현입니다.
+
+위 두 모델의 조건 때문에 이 배포판은 개인적·비상업적 용도로 제공됩니다.
+상업적으로 사용하거나 재배포하려면 각 모델과 학습 데이터의 원 라이선스를
+직접 확인해야 합니다. 전체 고지는 설치 폴더의 _internal\third_party\NOTICE.md에 있습니다.
+
+Qt for Python(PySide6, LGPL-3.0), PyTorch, OpenCV, Pillow, pillow-heif 등
+오픈소스 구성 요소는 각자의 라이선스를 따릅니다.
+
+이 소프트웨어는 있는 그대로 제공되며, 어떠한 보증도 하지 않습니다.
+보정 결과는 원본과 비교해 확인하세요.
+
+소스 코드와 문의: https://github.com/hahadark/onbit

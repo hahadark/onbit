@@ -3,6 +3,22 @@
 Windows 독립 실행형 사진 뷰어 / AI 보정 / HEIC 변환 / 일괄 리사이즈 프로그램입니다.
 PySide6의 네이티브 Windows 창을 사용합니다. 웹 브라우저, 웹뷰, 로컬 웹 서버는 사용하지 않습니다.
 
+## 설치 (일반 사용자)
+
+1. [최신 릴리스](https://github.com/hahadark/onbit/releases/latest)에서 **`OnbitSetup-버전.exe` 하나만** 내려받아 실행합니다.
+2. **버전 선택** 화면에서 컴퓨터에 맞는 버전을 고릅니다. NVIDIA 그래픽 드라이버가 있으면 GPU 버전이 미리 선택됩니다.
+   - **GPU 가속 버전**: NVIDIA 그래픽카드용. 다운로드 약 2.4GB, 설치 후 약 4.9GB. CUDA Toolkit 불필요.
+   - **CPU 버전**: 모든 PC용. 다운로드 약 0.3GB, 설치 후 약 0.7GB. 기능은 같고 처리 속도가 느립니다.
+3. 설치 프로그램이 고른 버전만 GitHub 릴리스에서 내려받아 SHA-256으로 검증한 뒤 설치합니다(인터넷 필요).
+   관리자 권한 없이 `%LOCALAPPDATA%\Programs\Onbit`에 설치되고 시작 메뉴에 **온빛 Onbit**이 생깁니다.
+4. 코드 서명이 없어 Windows SmartScreen이 경고하면 **추가 정보 → 실행**을 누릅니다.
+
+다시 실행해 다른 버전을 고르면 교체 설치되며 설정은 유지됩니다. 제거는 Windows 설정 → 앱에서 합니다.
+인터넷 없이 설치하려면 릴리스의 해당 버전 `.7z`를 모두 같은 폴더에 풀고 `Onbit.exe`를 실행하세요.
+
+설치 파일에는 비상업·연구 목적 조건이 있는 모델(얼굴 파싱, Neural-Preset)이 포함되어 있어
+개인적·비상업적 용도로 제공됩니다. 자세한 내용은 [출처와 라이선스](third_party/NOTICE.md)를 확인하세요.
+
 ## 실행
 
 **이 GitHub 저장소는 소스 코드 배포본입니다.** 실행 파일, 모델 가중치, 개인 사진과 작업 목록은 포함하지 않습니다.
@@ -186,6 +202,10 @@ powershell -ExecutionPolicy Bypass -File build.ps1
 
 `setup.ps1`은 프로젝트 가상환경에 패키지를 설치합니다. 얼굴 인식용 OpenCV와 CUDA 포함 PyTorch 다운로드는 약 3.3GB입니다.
 `build.ps1`은 `dist/Onbit`에 실행 파일과 동작에 필요한 라이브러리를 묶습니다.
+설치 프로그램은 [Inno Setup 6.5+](https://jrsoftware.org/isinfo.php)(`winget install JRSoftware.InnoSetup`)와 7-Zip으로 만듭니다.
+GPU 버전(`.venv`, CUDA PyTorch)과 CPU 버전(`.venv-cpu`, `torch==2.7.1 --index-url https://download.pytorch.org/whl/cpu`)을
+각각 PyInstaller로 빌드한 뒤 `installer/package-release.ps1 -Gpu <GPU 빌드 폴더> -Cpu <CPU 빌드 폴더>`를 실행합니다.
+`installer/Output/`의 설치 프로그램과 `.7z` 파일을 모두 GitHub 릴리스 `v버전`에 올립니다.
 빌드 및 전체 테스트에는 [모델 파일](models/README.md)과 [샘플 사진](samples/README.md)이 필요합니다.
 
 검사:

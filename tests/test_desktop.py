@@ -116,7 +116,8 @@ class DesktopTests(unittest.TestCase):
                 self.assertIs(window.content_stack.currentWidget(), dialog)
                 self.assertTrue(dialog.source_folder.isChecked())
                 self.assertEqual(dialog.quality.value(), 90)
-                self.assertTrue(dialog.parallel_gpu.isChecked())
+                # Parallel GPU processing is offered only on CUDA; the CPU edition runs sequentially.
+                self.assertEqual(dialog.parallel_gpu.isChecked(), window.engine.status()['device'] == 'cuda')
                 dialog.correction.setCurrentIndex(dialog.correction.findData('auto'))
                 self.assertFalse(dialog.auto_widget.isHidden())
                 dialog.auto_strength.setValue(75)

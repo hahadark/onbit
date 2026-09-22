@@ -1,4 +1,5 @@
 .venv/
+.venv*/
 data/
 exports/
 __pycache__/
@@ -32,3 +33,4 @@ onbit-data/
 /.vscode/
 Thumbs.db
 .DS_Store
+/installer/Output/
